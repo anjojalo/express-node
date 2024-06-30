@@ -1,0 +1,212 @@
+---
+export const codigos = {
+    codigo1:`
+
+    import express from 'express'
+import { moviesRouter } from './routes/productsRoutes.js'
+const app = express()
+const port = process.env.PORT ?? 3000;
+
+app.use(express.json())
+
+app.use('/products', moviesRouter)
+
+app.get('/',(req, res)=>{
+    res.status(400).json({message:"Conection ok"})
+})
+
+app.listen(port, ()=>{
+    console.log(\`Server listenin http://localhost:\${port}\`)
+})
+    
+    `,
+codigo2:`
+import { ProductsController } from '../controller/productsController.js'
+import {Router} from 'express'
+export const moviesRouter = Router()
+
+moviesRouter.get('/', ProductsController.getAll);
+
+moviesRouter.get('/:id', ProductsController.getProductById)
+
+moviesRouter.post('/', ProductsController.createProduct)
+
+moviesRouter.patch('/:id', ProductsController.updateProduct)
+
+moviesRouter.delete('/:id', ProductsController.deleteProduct)
+
+`,
+codigo3:`
+import { ProductsModel } from "../models/productsModel.js";
+import { productEschema, validateProduct, validatePartialProduct } from '../scheemes/productScheme.js';
+
+export class ProductsController{
+
+    static async getAll(req, res){
+        const allProducts= await ProductsModel.getAll();
+        res.status(400).json(allProducts);
+    }
+
+    static async getProductById(req, res){
+     const {id} = req.params;
+     const buscar = await ProductsModel.getProductById({id})
+     if(buscar===false)return res.status(404).json({message:"movie not found"})
+        else return res.status(400).json(buscar)
+    
+    }
+
+    static async createProduct(req, res){
+        console.log(req.body);
+        const result =  validateProduct(req.body);
+
+        if(!result.success){
+            return res.status(404).json({error: JSON.parse(result.error.message)})
+        }else{
+            const create = await ProductsModel.createProduct(result);
+            res.status(404).json(create);
+        }
+    }
+
+    static async updateProduct(req, res){
+        const result = validatePartialProduct(req.body);
+        if(!result.success){
+            return res.status(404).json({error: JSON.parse(result.error.message)})
+        }
+
+        const { id } = req.params;
+
+        const changeProduct = await ProductsModel.updateProduct({id, input:result.data});
+        if(changeProduct === false){
+            return res.status(404).json({message: "Product not found"});
+        }else return res.status(400).json(changeProduct);
+    }
+
+    static async deleteProduct(req, res){
+        const {id } = req.params;
+        const deleteProduct = await ProductsModel.deleteProduct({id});
+        if(deleteProduct===false){
+            return res.status(404).json({message: "Product not found"});
+        }else{
+            return res.status(400).json({message:"Product deleted"});
+        }
+    }
+
+}
+`,
+codigo4:`
+import { productsBD } from '../products.js';
+import {randomUUID} from 'node:crypto'
+import { productEschema, validateProduct, validatePartialProduct } from '../scheemes/productScheme.js';
+
+export class ProductsModel{
+
+
+    //show all products
+    static async getAll(){
+        return productsBD;
+    }
+
+    static async getProductById({id}){
+        const buscarId =  productsBD.find(pro=>pro.id===id);
+        if(buscarId)return buscarId;
+        return false;
+    }
+
+    static async createProduct(result){
+        const newProduct = {
+            id:randomUUID(),
+            ...result
+        }
+        productsBD.push(newProduct);
+        return newProduct;
+    }
+
+    static async updateProduct({id, input}){
+        const movieIndex = await productsBD.findIndex(x => x.id ===id);
+        if(movieIndex===-1){
+            return false
+        }else{
+            const updateProduct = {
+                ...productsBD[movieIndex],
+                ...input
+            }
+
+            productsBD[movieIndex] = updateProduct;
+            return updateProduct;
+        }
+    }
+
+    static async deleteProduct ({id}){
+        const movieIndex =  productsBD.findIndex(x => x.id ===id);
+        if(movieIndex===-1){
+            return false;
+        }else{
+            productsBD.splice(movieIndex, 1)
+        }
+    }
+}
+`,
+codigo5:`
+export const productsBD = [
+    {
+        "id":"1",
+        "name":"aaaaaa",
+        "year":1985
+    },
+    {
+        "id":"2",
+        "name":"aaaaaa",
+        "year":1985
+    },
+    {
+        "id":"3",
+        "name":"aaaaaa",
+        "year":1985
+    }
+]
+`,
+codigo6:`
+import { z } from 'zod';
+
+
+export const productEschema = z.object({
+    name: z.string({
+        invalid_type_error:'Product name must be a string',
+        required_error:'Product name is required'
+    }),
+    year: z.number().int().positive().min(1900).max(2024)   
+})
+
+export function validateProduct(object){
+    return productEschema.safeParse(object);
+}
+
+export function validatePartialProduct(object){
+    return productEschema.partial().safeParse(object);
+}
+`,
+codigo7:``,
+codigo8:``,
+codigo9:``,
+codigo10:``,
+codigo11:``,
+codigo12:``,
+codigo13:``,
+codigo14:``,
+codigo15:``,
+codigo16:``,
+codigo17:``,
+codigo18:``,
+codigo19:``,
+codigo20:``,
+codigo21:``,
+codigo22:``,
+codigo23:``,
+codigo24:``,
+codigo25:``,
+codigo26:``,
+codigo27:``,
+codigo28:``,
+codigo29:``}
+
+---

@@ -1,0 +1,175 @@
+---
+export const codigos = {
+  codigo1: `
+    const express = require('express');
+const app = express();
+const port = process.env.PORT ?? 1234
+app.get('/', (req, res)=>{
+    console.log("respuesta enviada")
+    res.send("hola mundo desde expres");
+});
+
+app.listen(port , ()=>{
+    console.log(\`Listening on port http://localhost:\${port}\`);
+});
+
+
+app.get('/json', (req, res)=>{
+    res.json({"name":"juan perez"})
+})
+
+
+//recuperar peliculas por id
+app.get('/movies/:id', (req, res)=>{
+    const {id} = req.params
+    const buscar= movies.find((fil)=>(fil.id ===id));
+    if(buscar)return res.json(buscar)
+    else res.status(404).json({message:"Movie not found"});
+})
+
+//recuperar por genero
+
+app.get('/movies', (req, res)=>{
+    const { genre } = req.query;
+    if(genre){
+        const filterMovies = movies.filter(
+            movie=>movie.genre.some(g=>g.toLowerCase() === genre.toLowerCase())
+        )
+        return res.json(filterMovies);
+    }
+    res.json(movies)
+})
+
+
+app.post('/movies', (req, res)=>{
+
+    const result = validateMovie(req.body);
+    if(result.error){
+        return res.status(400).json({error:JSON.parse(result.error.message)})
+    }
+
+    const newMovie ={
+         id:crypto.randomUUID(),
+         ...result.data
+        }
+    movies.push(newMovie);
+    res.status(201).json(newMovie);
+})
+
+app.patch('/movies/:id', (req, res)=>{
+    const result = validatePartialMovie(req.body);
+    if(!result.success){
+        return res.status(400).json({error: JSON.parse(result.error.message)})
+        }
+    const { id } = req.params;
+    
+    const movieIndex = movies.findIndex(movie => movie.id === id);
+    if(movieIndex === -1){
+        return res.status(404).json({message:'Movie not found'});
+    }
+
+    const updateMovie = {
+        ...movies[movieIndex],
+        ...result.data
+    }
+
+    movies[movieIndex] = updateMovie;
+    return res.json(updateMovie);
+})
+
+    `,
+  codigo2: `
+  [
+    {
+        "id":"1",
+        "title":"fjalsdf",
+        "year":1994,
+        "duration":140,
+        "genre":[
+            "Action",
+            "Drama"
+        ]
+    },
+    {
+        "id":"2",
+        "title":"aaaa",
+        "year":1982,
+        "duration":120,
+        "genre":[
+            "Action",
+            "Drama"
+        ]
+    },
+    {
+        "id":"10",
+        "title":"78978979",
+        "year":1999,
+        "duration":90,
+        "genre":[
+            "Adventure",
+            "Comedy"
+        ]
+    }
+]
+  
+  `,
+  codigo3: `npm i zod`,
+  codigo4: `
+  const crypto = require('node:crypto')
+
+
+const z = require('zod')
+
+const movieEschema = z.object({
+    title: z.string({
+        invalid_type_error:'Movied title must be a string',
+        required_error:'Movied title es required'
+    }),
+    year: z.number().int().positive().min(1900).max(2024),
+    duration: z.number().int().positive(),
+    genre: z.array(
+        z.enum(['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror'])
+    )
+})
+
+
+function validateMovie(object){
+    return movieEschema.safeParse(object);
+}
+
+function validatePartialMovie(object){
+    return movieEschema.partial().safeParse(object);
+}
+
+module.exports = {
+    validateMovie,
+    validatePartialMovie
+}
+  `,
+  codigo5: ``,
+  codigo6: ``,
+  codigo7: ``,
+  codigo8: ``,
+  codigo9: ``,
+  codigo10: ``,
+  codigo11: ``,
+  codigo12: ``,
+  codigo13: ``,
+  codigo14: ``,
+  codigo15: ``,
+  codigo16: ``,
+  codigo17: ``,
+  codigo18: ``,
+  codigo19: ``,
+  codigo20: ``,
+  codigo21: ``,
+  codigo22: ``,
+  codigo23: ``,
+  codigo24: ``,
+  codigo25: ``,
+  codigo26: ``,
+  codigo27: ``,
+  codigo28: ``,
+  codigo29: ``,
+};
+---

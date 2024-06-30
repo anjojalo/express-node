@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+import Myimagen from '../../components/Myimagen.astro';
+import Articlep from '../../components/Articlep.astro';
+import Addimagen from '../../components/Addimagen.astro';
+import { codigos } from '../codigos/codigos.astro';
+import Code from '../../components/Code.astro'
+const typelang ="line-numbers language-typescript";
+const htmlLang = "language-html line-numbers";
+
+/* const typelang ="java"; */
+---
+
+<Layout title="Welcome to Astro.">
+	<div slot="aside">
+		<p>este es el aside </p>
+	</div>
+	<main slot="main">
+
+
+		<h1>EXPRESS</h1>
+
+		
+		<Articlep>
+			<h1 class="title-h1">Servidor con Express common js</h1>
+            <Code codigo={codigos.codigo1} typeLan={typelang}></Code>
+            
+            <p class="parrafo">Archivos de movies</p>
+            <Code codigo={codigos.codigo2} typeLan={typelang}></Code>
+            
+            <p class="parrafo">Instalar zod</p>
+            <Code codigo={codigos.codigo3} typeLan={typelang}></Code>
+            <p class="parrafo">Configurar un eschema con zod</p>
+            <Code codigo={codigos.codigo4} typeLan={typelang}></Code>
+
+			
+		</Articlep>
+
+
+	
+
+	</main>
+
+	
+</Layout>

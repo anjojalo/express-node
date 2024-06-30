@@ -1,0 +1,25 @@
+---
+
+interface Props {
+	direccion: string;
+ /*    myArray: Array<[]>; */
+}
+
+const { direccion } = Astro.props;
+
+---
+
+
+
+
+<div class="my-image">
+    <img src={direccion} />
+</div>
+
+
+<style>
+    img{
+        
+        display: block;
+    }
+    </style>
