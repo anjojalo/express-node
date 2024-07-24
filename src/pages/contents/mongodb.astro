@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+import Myimagen from '../../components/Myimagen.astro';
+import Articlep from '../../components/Articlep.astro';
+import Addimagennormal from '../../components/Addimagennormal.astro';
+import { codigos } from '../codigos/mongo.astro';
+ import Code from '../../components/Code.astro'
+
+const typelang ="line-numbers language-typescript";
+const htmlLang = "language-html line-numbers";
+
+/* const typelang ="java"; */
+---
+
+<Layout title="Welcome to Astro.">
+	<div slot="aside">
+		<p>este es el aside </p>
+	</div>
+	<main slot="main">
+
+
+		<h1>EXPRESS</h1>
+
+		
+		<Articlep>
+			<h1 class="title-h1">Archivo app</h1>
+            
+            <p class="parrafo">Estructura de carpetas</p>
+            <Addimagennormal direccion='../../../public/assets/tree_folders.png'></Addimagennormal>
+            
+            <p class="parrafo">Archivo app express</p>
+            <Code codigo={codigos.codigo1} typeLan={typelang}></Code>
+            
+            <p class="parrafo">Creacion de clase para conexion a mongo db</p>
+            <Code codigo={codigos.codigo2} typeLan={typelang}></Code>
+            <!--
+            
+            <p class="parrafo">Modulo Controller</p>
+            <Code codigo={codigos.codigo3} typeLan={typelang}></Code>
+            <p class="parrafo">Modulo Models</p>
+            <Code codigo={codigos.codigo4} typeLan={typelang}></Code>
+
+            <p class="parrafo">Array con objetos</p>
+            <Code codigo={codigos.codigo5} typeLan={typelang}></Code>
+            
+            <p class="parrafo">Modulo zod para validar datos</p>
+            <Code codigo={codigos.codigo6} typeLan={typelang}></Code> -->
+			
+		</Articlep>
+
+
+	
+
+	</main>
+
+	
+</Layout>

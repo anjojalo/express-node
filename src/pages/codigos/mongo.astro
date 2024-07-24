@@ -1,0 +1,135 @@
+---
+export const codigos = {
+    codigo1:`
+
+import express from 'express'
+import { moviesRouter } from './routes/productsRoutes.js'
+const app = express()
+const port = process.env.PORT ?? 3000;
+
+app.use(express.json())
+app.use(cors());
+app.use('/products', moviesRouter)
+
+app.get('/',(req, res)=>{
+    res.status(400).json({message:"Conection ok"})
+})
+
+app.listen(port, ()=>{
+    console.log(\`Server listenin http://localhost:\${port}\`)
+})
+    
+    `,
+codigo2:`
+
+import { MongoClient } from 'mongodb';
+
+const url = 'mongodb://127.0.0.1:27017';
+const dbName = 'productsdb';
+const collectionName = 'products';
+
+export class MongoDBConnectionModel {
+    constructor() {
+        this.url = url;
+        this.dbName = dbName;
+        this.client = new MongoClient(this.url);
+    }
+
+    async connect() {
+        try {
+            await this.client.connect();
+            console.log(\`Conexión exitosa a MongoDB en \${this.url}\`);
+            this.db = this.client.db(this.dbName);
+        } catch (error) {
+            console.error('Error al conectar a MongoDB:', error);
+            throw error;
+        }
+    }
+
+    async close() {
+        try {
+            await this.client.close();
+            console.log('Conexión cerrada correctamente');
+        } catch (error) {
+            console.error('Error al cerrar la conexión a MongoDB:', error);
+            throw error;
+        }
+    }
+
+    getCollection(collectionName) {
+        if (!this.db) {
+            throw new Error('No se ha establecido la conexión a MongoDB');
+        }
+        return this.db.collection(collectionName);
+    }
+
+     async createConection(){
+        const dbConnection = new MongoDBConnectionModel();
+        try {
+            await dbConnection.connect();
+            const collection = dbConnection.getCollection(collectionName);
+    
+            const documentos = await collection.find({}).toArray();
+            return documentos;
+            //console.log('Documentos encontrados:', documentos);
+        } catch (error) {
+            console.error('Error al consultar productos:', error);
+        } finally {
+            await dbConnection.close();
+        }
+    }
+
+
+    // recuperar todos los documentos de una base de datos
+
+      async getAllDocuments(){
+        const dbConnection = new MongoDBConnectionModel();
+        try {
+            await dbConnection.connect();
+            const   collection = await dbConnection.getCollection(collectionName).find({}).toArray();
+            return collection;
+        } catch (error) {
+            console.error('Error al consultar productos:', error);
+        } finally {
+            await dbConnection.close();
+        }
+    }
+
+`,
+codigo3:`
+
+`,
+codigo4:`
+
+`,
+codigo5:`
+
+`,
+codigo6:`
+
+`,
+codigo7:``,
+codigo8:``,
+codigo9:``,
+codigo10:``,
+codigo11:``,
+codigo12:``,
+codigo13:``,
+codigo14:``,
+codigo15:``,
+codigo16:``,
+codigo17:``,
+codigo18:``,
+codigo19:``,
+codigo20:``,
+codigo21:``,
+codigo22:``,
+codigo23:``,
+codigo24:``,
+codigo25:``,
+codigo26:``,
+codigo27:``,
+codigo28:``,
+codigo29:``}
+
+---
